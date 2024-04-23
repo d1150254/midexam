@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive Gallery</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 20px;
+    }
+    .item {
+        margin: 10px;
+        position: relative;
+        overflow: hidden;
+        flex: 0 0 calc(25% - 20px); /* 每行顯示四個，考慮間隔 */
+    }
+    .item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1,1);
+        transition: all 0.5s ease-in-out;
+    }
+
+    .item img:hover{
+        transform: scale(1.2,1.2);
+    }
+
+    /* 媒體查詢 */
+    @media screen and (max-width: 768px) {
+        .item {
+            flex: 0 0 calc(50% - 20px); /* 每行顯示兩個，考慮間隔 */
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .item {
+            flex: 0 0 calc(100% - 20px); /* 單獨一行，考慮間隔 */
+        }
+    }
+
+
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="item"><img src="imgs/下載 (1).jpg" alt="Image 1"></div>
+    <div class="item"><img src="imgs/下載 (2).jpg" alt="Image 2"></div>
+    <div class="item"><img src="imgs/下載 (3).jpg" alt="Image 3"></div>
+    <div class="item"><img src="imgs/下載 (4).jpg" alt="Image 3"></div>
+    <div class="item"><img src="imgs/下載 (5).jpg" alt="Image 3"></div>
+    <div class="item"><img src="imgs/下載 (6).jpg" alt="Image 3"></div>
+    <div class="item"><img src="imgs/下載.jpg" alt="Image 3"></div>
+    <div class="item"><img src="imgs/images (1).jpg" alt="Image 3"></div>
+    <!-- 添加更多圖片 -->
+</div>
+
+</body>
+</html>

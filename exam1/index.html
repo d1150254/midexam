@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Todo List</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+    .container {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    input[type="text"] {
+        width: 70%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    button {
+        padding: 8px 20px;
+        background-color: #4caf50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        margin-bottom: 10px;
+    }
+    .todo-item {
+        display: flex;
+        align-items: center;
+    }
+    .todo-text {
+        margin-right: 10px;
+    }
+    .edit-input {
+        width: 150px;
+        padding: 6px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Todo List</h1>
+    <input type="text" id="todo-input" placeholder="Enter todo...">
+    <button onclick="addTodo()">Add</button>
+    <button onclick="deleteSelected()">Delete Selected</button>
+    <button onclick="deleteAll()">Delete All</button>
+    <ul id="todos"></ul>
+</div>
+<script>
+    const todos = [];
+
+    function renderTodos() {
+        const todoList = document.getElementById('todos');
+        todoList.innerHTML = '';
+        todos.forEach((todo, index) => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('todo-item');
+            listItem.innerHTML = `
+                <input type="checkbox" onchange="toggleDone(${index})" ${todo.done ? 'checked' : ''}>
+                <span class="todo-text">${todo.text}</span>
+                <input type="text" class="edit-input" value="${todo.text}" style="display: none;">
+                <button onclick="edit(${index})">Edit</button>
+            `;
+            todoList.appendChild(listItem);
+        });
+    }
+
+    function addTodo() {
+        const input = document.getElementById('todo-input');
+        const text = input.value.trim();
+        if (text !== '') {
+            todos.push({ text, done: false });
+            renderTodos();
+            input.value = '';
+        }
+    }
+
+    function toggleDone(index) {
+        todos[index].done = !todos[index].done;
+        renderTodos();
+    }
+
+    function edit(index) {
+        const listItem = document.getElementById('todos').children[index];
+        const span = listItem.querySelector('.todo-text');
+        const editInput = listItem.querySelector('.edit-input');
+        const button = listItem.querySelector('button');
+
+        if (editInput.style.display === 'none') {
+            span.style.display = 'none';
+            editInput.style.display = 'inline';
+            editInput.value = span.textContent;
+            button.textContent = 'Save';
+        } else {
+            todos[index].text = editInput.value.trim();
+            renderTodos();
+        }
+    }
+
+    function deleteSelected() {
+        for (let i = todos.length - 1; i >= 0; i--) {
+            if (todos[i].done) {
+                todos.splice(i, 1);
+            }
+        }
+        renderTodos();
+    }
+
+    function deleteAll() {
+        todos.length = 0;
+        renderTodos();
+    }
+
+    renderTodos();
+</script>
+</body>
+</html>
